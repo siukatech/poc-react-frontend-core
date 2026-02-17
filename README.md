@@ -1,146 +1,73 @@
+# React + TypeScript + Vite
 
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Create Project
-```bash
-npm init -y
-```
+Currently, two official plugins are available:
 
-Install React 17
-```bash
-npm install react@17 react-dom@17
-```
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-Install TypeScript 5.1.3
-```bash
-npm install typescript@5.1.3 --save-dev
-```
+## React Compiler
 
-Install Webpack 5 Tooling
-```bash
-npm install --save-dev \
-webpack \
-webpack-cli \
-webpack-dev-server \
-ts-loader \
-@types/react@17 \
-@types/react-dom@17 \
-html-webpack-plugin \
-css-loader \
-style-loader
-```
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-Create tsconfig.json
-```bash
-npx tsc --init
-```
+## Expanding the ESLint configuration
 
-Modify:
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+
 ```js
-{
-  "compilerOptions": {
-    "target": "ES6",
-    "lib": ["DOM", "ES6"],
-    "jsx": "react",
-    "module": "ESNext",
-    "moduleResolution": "Node",
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true
-  }
-}
-```
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
 
-Create webpack.config.js
-```js
-const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
 
-module.exports = {
-  mode: "development",
-  entry: "./src/index.tsx",
-  devtool: "source-map",
-  devServer: {
-    port: 3000,
-    historyApiFallback: true,
-    hot: true
-  },
-  resolve: {
-    extensions: [".tsx", ".ts", ".js"]
-  },
-  module: {
-    rules: [
-      {
-        test: /\.tsx?$/,
-        use: "ts-loader",
-        exclude: /node_modules/
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
       },
-      {
-        test: /\.css$/,
-        use: ["style-loader", "css-loader"]
-      }
-    ]
+      // other options...
+    },
   },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: "./public/index.html"
-    })
-  ],
-  output: {
-    filename: "bundle.js",
-    path: path.resolve(__dirname, "dist"),
-    clean: true
-  }
-};
+])
 ```
 
-Create Folder Structure
-```text
-public/
-   index.html
-src/
-   index.tsx
-   App.tsx
-```
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-index.html
-```html
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>React 17 Core</title>
-  </head>
-  <body>
-    <div id="root"></div>
-  </body>
-</html>
-```
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
 
-index.tsx
-```tsx
-import React from "react";
-import ReactDOM from "react-dom";
-import App from "./App";
-
-ReactDOM.render(<App />, document.getElementById("root"));
-```
-
-App.tsx
-```tsx
-export default function App() {
-  return <h1>React 17 + TS 5 + Webpack 5</h1>;
-}
-```
-
-Add Scripts
-In package.json:
-```json
-"scripts": {
-  "start": "webpack serve --open",
-  "build": "webpack --mode production"
-}
-```
-
-Run It
-```bash
-npm start
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
 ```
