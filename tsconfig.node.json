@@ -8,16 +8,37 @@
     "skipLibCheck": true,
 
     /* Bundler mode */
+    //
+    // TypeScript may fail to resolve CJS/ESM hybrid packages. start
     "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
+    // "moduleResolution": "node",
+    // TypeScript may fail to resolve CJS/ESM hybrid packages. end
+    //
+    // "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
     "moduleDetection": "force",
-    "noEmit": true,
+    // "noEmit": true,
 
     /* Linting */
     "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
+    //
+    // disable TS6133, start
+    // "noUnusedLocals": true,
+    // "noUnusedParameters": true,
+    // disable TS6133, end
+    //
+    // allow TS7016, start
+    "allowJs": true,
+    // allow TS7016, end
+    //
+    // "allowSyntheticDefaultImports": true,
+    "declaration": true,
+    "declarationMap": true,
+    "emitDeclarationOnly": false,
+    "composite": true,
+    "outDir": "dist",
+    // "rootDir": "src",
+    //
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true

@@ -1,7 +1,19 @@
 {
-  "files": [],
-  "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
-  ]
+  "compilerOptions": {
+    "target": "ES2023",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+
+    "strict": true,
+    "skipLibCheck": true,
+
+    "declaration": true,
+    "declarationMap": true,
+
+    "outDir": "dist",
+    "rootDir": "src",
+    "allowJs": true
+  },
+  "include": ["src"]
 }

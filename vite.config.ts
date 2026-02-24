@@ -7,17 +7,12 @@ export default defineConfig({
   build: {
     lib: {
       entry: "src/index.ts",
-      name: "ReactCore",
-      fileName: "react-core"
+      name: "PocReactFrontendCore",
+      fileName: "poc-react-frontend-core",
+      formats: ["es", "cjs"],
     },
     rollupOptions: {
-      external: ["react", "react-dom", "react-router-dom"],
-      output: {
-        globals: {
-          react: "React",
-          "react-dom": "ReactDOM"
-        }
-      }
+      external: ["react", "react-dom"],
     }
   }
 })
