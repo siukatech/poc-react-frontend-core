@@ -1,5 +1,6 @@
 import axios, { AxiosError } from "axios";
 import jwt_decode from 'jwt-decode';
+import CryptoJS from 'crypto-js';
 import type { User, UserPermission, DoAuthLoginPayload } from "../models";
 import type { DoCheckPermissionByRegex, LoginService } from "./LoginService";
 import { restoreJsonStr, restoreRawStr, saveJsonObj, saveRawStr } from "../../utils/storage";
